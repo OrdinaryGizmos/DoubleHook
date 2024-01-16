@@ -6,4 +6,3 @@ sky_horizon_color = Color(0.670588, 0.588235, 0.376471, 1)
 ground_bottom_color = Color(0.239216, 0.121569, 0.0823529, 1)
 ground_horizon_color = Color(0.670588, 0.588235, 0.376471, 1)
 sun_angle_max = 31.94
-sun_curve = 25.3345

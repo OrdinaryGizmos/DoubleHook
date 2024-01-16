@@ -34,9 +34,18 @@ public partial class Player : CharacterBody3D
             }
         }
 
-        if(!IsOnFloor() && !connected)
+        if (IsOnFloor())
         {
-            velocity.Y -= gravity * delta;
+            var pos = GlobalPosition;
+            pos.Y = 0.015;
+            GlobalPosition = pos;
+        }
+        else
+        {
+            if (!connected)
+            {
+                velocity.Y -= gravity * delta;
+            }
         }
 
         // Handle Jump.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b6e5t446lx2j1"]
+[gd_scene load_steps=12 format=3 uid="uid://b6e5t446lx2j1"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_msurp"]
 [ext_resource type="PackedScene" uid="uid://cgbcntf2fep8u" path="res://hook_shot.tscn" id="2_mvtlb"]
@@ -56,7 +56,7 @@ shader_parameter/object_texture = SubResource("PlaceholderTexture2D_h4xpy")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_nfxp2"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2d13l"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1alyo"]
 resource_local_to_scene = true
 render_priority = 0
 shader = SubResource("Shader_xod51")
@@ -66,6 +66,9 @@ shader_parameter/Portal_Size = Vector3(15, 500, 15)
 shader_parameter/Portal_Rotation = null
 shader_parameter/object_texture = SubResource("PlaceholderTexture2D_nfxp2")
 
+[sub_resource type="FogMaterial" id="FogMaterial_0es0p"]
+density = -8.0
+
 [node name="Player" type="CharacterBody3D"]
 collision_mask = 3
 axis_lock_angular_x = true
@@ -73,7 +76,7 @@ axis_lock_angular_z = true
 script = ExtResource("1_msurp")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 0, 26.4094, 0)
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 0, 30, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -96,4 +99,9 @@ Player = NodePath("..")
 FiringSpeed = 100.0
 Length = 50.0
 trigger = "right_click"
-Mat = SubResource("ShaderMaterial_2d13l")
+Mat = SubResource("ShaderMaterial_1alyo")
+
+[node name="FogVolume" type="FogVolume" parent="."]
+transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, 0, 30, 0)
+size = Vector3(125, 45, 125)
+material = SubResource("FogMaterial_0es0p")
