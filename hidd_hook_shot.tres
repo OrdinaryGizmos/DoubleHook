@@ -1,0 +1,46 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://b86o0prakglhg"]
+
+[sub_resource type="Shader" id="Shader_xod51"]
+code = "shader_type spatial;
+render_mode depth_prepass_alpha,cull_disabled;
+
+uniform bool masked = false;//set to true if passing thru a portal
+uniform vec3 Portal_Global_Origin;
+uniform vec3 Portal_Size;
+uniform vec3 Portal_Rotation;
+uniform sampler2D object_texture;
+varying float y_f;
+varying vec3 world_position;
+
+void vertex() {
+	if(masked){
+		world_position = VERTEX;	//must have \"world_vertex_coords\" enabled as render mode for this to work
+	}
+}
+
+void fragment() {
+	if(masked){
+		ALPHA_SCISSOR_THRESHOLD = 2.0;
+		vec3 offset = world_position - Portal_Global_Origin;
+		if(offset.x < Portal_Size.x && offset.x > -Portal_Size.x){
+			if(offset.y < Portal_Size.y && offset.y > -Portal_Size.y){
+				if(offset.z < Portal_Size.z && offset.z > -Portal_Size.z){
+					ALPHA_SCISSOR_THRESHOLD = 0.0;
+				}
+			}
+		}
+	}
+	ALBEDO = texture(object_texture, UV).rgb;
+}
+"
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_fc4id"]
+
+[resource]
+render_priority = 0
+shader = SubResource("Shader_xod51")
+shader_parameter/masked = true
+shader_parameter/Portal_Global_Origin = Vector3(0, 538, 0)
+shader_parameter/Portal_Size = Vector3(15, 500, 15)
+shader_parameter/Portal_Rotation = null
+shader_parameter/object_texture = SubResource("PlaceholderTexture2D_fc4id")

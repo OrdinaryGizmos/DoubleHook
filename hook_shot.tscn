@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://cgbcntf2fep8u"]
+
+[ext_resource type="Script" path="res://HookShot.cs" id="1_vv0jm"]
+[ext_resource type="Script" path="res://Hook.cs" id="2_557y7"]
+[ext_resource type="Material" uid="uid://b86o0prakglhg" path="res://hidd_hook_shot.tres" id="3_51cqt"]
+
+[sub_resource type="Curve" id="Curve_ya4bx"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0261194, 0.64), -4.43586, -4.43586, 0, 0, Vector2(0.0559702, 0.18), 0.0, 0.0, 0, 0, Vector2(0.16791, 0.0659341), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_ij5bn"]
+material = ExtResource("3_51cqt")
+sections = 15
+section_length = 5.0
+section_segments = 15
+curve = SubResource("Curve_ya4bx")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_wvsyd"]
+radius = 1.0
+
+[node name="HookShot" type="Node3D"]
+top_level = true
+script = ExtResource("1_vv0jm")
+
+[node name="Hook" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 4
+collision_mask = 3
+freeze = true
+freeze_mode = 1
+custom_integrator = true
+continuous_cd = true
+max_contacts_reported = 5
+contact_monitor = true
+script = ExtResource("2_557y7")
+
+[node name="HookMesh" type="MeshInstance3D" parent="Hook"]
+transform = Transform3D(2, 0, 0, 0, 6.12323e-17, -2, 0, 1, 1.22465e-16, 0, 0, -38.2647)
+mesh = SubResource("RibbonTrailMesh_ij5bn")
+skeleton = NodePath("../..")
+
+[node name="HookshotCollider" type="CollisionShape3D" parent="Hook"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -0.592)
+shape = SubResource("SphereShape3D_wvsyd")
+disabled = true
