@@ -26,13 +26,12 @@ public partial class HookShot : Node3D
     public List<Node3D> Collisions = new List<Node3D>();
     public OG.Spring Force;
 
-    [Export]
     public ShaderMaterial Mat;
 
     public override void _Ready()
     {
         Hook = GetNode<RigidBody3D>("Hook");
-        Hook.GetNode<MeshInstance3D>("HookMesh").SetSurfaceOverrideMaterial(0, Mat);
+        Mat = Hook.GetNode<MeshInstance3D>("HookMesh").GetActiveMaterial(0) as ShaderMaterial;
     }
 
     public override void _PhysicsProcess(double delta)

@@ -9,6 +9,7 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0261194, 0.64), -4.43586, -4.4
 point_count = 4
 
 [sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_ij5bn"]
+resource_local_to_scene = true
 material = ExtResource("3_51cqt")
 sections = 15
 section_length = 5.0

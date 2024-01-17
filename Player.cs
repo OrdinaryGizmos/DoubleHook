@@ -39,7 +39,7 @@ public partial class Player : CharacterBody3D
             }
         }
 
-        if (IsOnFloor())
+        if (IsOnFloor() || connected)
         {
             var pos = GlobalPosition;
             pos.Y = StartingHeight;
@@ -47,10 +47,7 @@ public partial class Player : CharacterBody3D
         }
         else
         {
-            if (!connected)
-            {
-                velocity.Y -= gravity * delta;
-            }
+            velocity.Y -= gravity * delta;
         }
 
         // Handle Jump.
