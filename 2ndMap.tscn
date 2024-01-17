@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://dkvdkkeleaupk"]
+
+[ext_resource type="MeshLibrary" uid="uid://bjlgbqnagjg1" path="res://buildings.tres" id="1_cfbqi"]
+[ext_resource type="PackedScene" uid="uid://c74rkr4j2l83s" path="res://Target.tscn" id="2_o6wia"]
+[ext_resource type="PackedScene" uid="uid://b6e5t446lx2j1" path="res://Player.tscn" id="3_5jokb"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ofp74"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_h3x05"]
+sky_material = SubResource("ProceduralSkyMaterial_ofp74")
+
+[sub_resource type="Environment" id="Environment_y3hug"]
+background_mode = 2
+sky = SubResource("Sky_h3x05")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_y3hug")
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("1_cfbqi")
+collision_layer = 5
+collision_mask = 7
+data = {
+"cells": PackedInt32Array(65534, 0, 1441792, 65534, 65535, 1441792, 65534, 65534, 1441792, 65535, 65534, 1441792, 0, 65534, 1441792, 0, 65535, 1441792, 0, 0, 1441792, 65535, 0, 1441792, 65535, 65535, 1441792, 1, 65534, 1441792, 1, 65535, 1441792, 1, 0, 1441792, 1, 1, 1441792, 0, 1, 1441792, 65535, 1, 1441792, 65534, 1, 1441792, 7, 2, 0, 7, 3, 0, 7, 4, 0, 7, 5, 0, 6, 6, 0, 6, 7, 0, 5, 7, 0, 4, 8, 0, 3, 9, 0, 2, 9, 0, 4, 9, 0, 5, 8, 0, 7, 6, 0, 7, 7, 0, 7, 8, 0, 6, 8, 0, 6, 9, 0, 5, 9, 0, 8, 7, 0, 8, 8, 0, 8, 9, 0, 8, 10, 0, 7, 10, 0, 6, 11, 0, 5, 12, 0, 6, 10, 0, 5, 10, 0, 5, 11, 0, 4, 11, 0, 3, 11, 0, 7, 9, 0, 4, 10, 0, 3, 10, 0, 9, 6, 0, 8, 5, 0, 8, 4, 0, 8, 3, 0, 8, 6, 0, 9, 7, 0, 9, 8, 0, 7, 11, 0, 65526, 8, 0, 65526, 7, 0, 65525, 7, 0, 65525, 6, 0, 65524, 5, 0, 65524, 4, 0, 65523, 4, 0, 65523, 3, 0, 65523, 2, 0, 65522, 2, 0, 65522, 1, 0, 65522, 0, 0, 65522, 65535, 0, 65522, 3, 0, 65523, 5, 0, 65524, 6, 0, 65524, 7, 0, 65523, 6, 0, 65522, 6, 0, 65522, 5, 0, 65521, 4, 0, 65521, 3, 0, 65521, 2, 0, 65521, 1, 0, 65520, 1, 0, 65520, 0, 0, 65520, 2, 0, 65520, 3, 0, 65520, 4, 0, 65520, 5, 0, 65521, 5, 0, 65522, 7, 0, 65523, 7, 0, 65522, 4, 0, 65522, 8, 0, 65521, 8, 0, 65520, 7, 0, 65520, 6, 0, 65519, 5, 0, 65519, 4, 0, 65521, 6, 0, 65521, 7, 0)
+}
+
+[node name="Target" parent="." instance=ExtResource("2_o6wia")]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, -1, 0, 1, 6.12323e-17, -24.6061, 2.6415, 7.48319)
+
+[node name="Target2" parent="." instance=ExtResource("2_o6wia")]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, -1, 0, 1, 6.12323e-17, -14.29, 2.6415, 6.7634)
+
+[node name="Target3" parent="." instance=ExtResource("2_o6wia")]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, -1, 0, 1, 6.12323e-17, 3.34757, 2.6415, 8.39677)
+
+[node name="Target4" parent="." instance=ExtResource("2_o6wia")]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, -1, 0, 1, 6.12323e-17, 10.5979, 2.6415, 18.0814)
+
+[node name="Target5" parent="." instance=ExtResource("2_o6wia")]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, -1, 0, 1, 6.12323e-17, 1.87705, 2.6415, -0.782922)
+
+[node name="Player" parent="." instance=ExtResource("3_5jokb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.146, 1, 0.938)

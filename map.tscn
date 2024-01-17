@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dxipr1oielv3e"]
+[gd_scene load_steps=7 format=3 uid="uid://dxipr1oielv3e"]
 
 [ext_resource type="Material" uid="uid://tv80arxkjqeo" path="res://sky.tres" id="1_2rw8n"]
 [ext_resource type="PackedScene" uid="uid://b6e5t446lx2j1" path="res://Player.tscn" id="1_r8hwr"]
@@ -9,7 +9,6 @@
 sky_material = ExtResource("1_2rw8n")
 
 [sub_resource type="Environment" id="Environment_y5evx"]
-background_mode = 4
 sky = SubResource("Sky_kwke3")
 sky_rotation = Vector3(0, 0, 1.5708)
 ambient_light_color = Color(0.219608, 0.0705882, 0.431373, 1)
@@ -23,21 +22,14 @@ volumetric_fog_anisotropy = 0.49
 volumetric_fog_length = 25.0
 adjustment_enabled = true
 
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_cen6y"]
-dof_blur_far_enabled = true
-dof_blur_far_distance = 75.0
-dof_blur_far_transition = 135.0
-
 [node name="Node3D" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
-light_color = Color(1, 1, 0.8, 1)
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_y5evx")
-camera_attributes = SubResource("CameraAttributesPractical_cen6y")
 
 [node name="Player" parent="." instance=ExtResource("1_r8hwr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.738298, 0.150516, -1.27432)

@@ -56,7 +56,7 @@ shader_parameter/object_texture = SubResource("PlaceholderTexture2D_h4xpy")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_nfxp2"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1alyo"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_udkc1"]
 resource_local_to_scene = true
 render_priority = 0
 shader = SubResource("Shader_xod51")
@@ -99,7 +99,7 @@ Player = NodePath("..")
 FiringSpeed = 100.0
 Length = 50.0
 trigger = "right_click"
-Mat = SubResource("ShaderMaterial_1alyo")
+Mat = SubResource("ShaderMaterial_udkc1")
 
 [node name="FogVolume" type="FogVolume" parent="."]
 transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, 0, 30, 0)

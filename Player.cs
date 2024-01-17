@@ -5,10 +5,15 @@ public partial class Player : CharacterBody3D
 {
     public const float Speed = 5.0f;
     public const float JumpVelocity = 4.5f;
+    public double StartingHeight;
     public List<Node3D> Collisions = new List<Node3D>();
 
     // Get the gravity from the project settings to be synced with RigidBody nodes.
     public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+
+    public override void _Ready(){
+        StartingHeight = GlobalPosition.Y;
+    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -37,7 +42,7 @@ public partial class Player : CharacterBody3D
         if (IsOnFloor())
         {
             var pos = GlobalPosition;
-            pos.Y = 0.015;
+            pos.Y = StartingHeight;
             GlobalPosition = pos;
         }
         else
