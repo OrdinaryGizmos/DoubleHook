@@ -1,13 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://b6e5t446lx2j1"]
+[gd_scene load_steps=8 format=3 uid="uid://b6e5t446lx2j1"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_msurp"]
+[ext_resource type="Script" path="res://CameraFollow.cs" id="2_88b4b"]
 [ext_resource type="PackedScene" uid="uid://cgbcntf2fep8u" path="res://hook_shot.tscn" id="2_mvtlb"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4ca1g"]
 
 [sub_resource type="Skin" id="Skin_4xatq"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_du62s"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_43w2d"]
+size = Vector3(1, 2, 1)
 
 [sub_resource type="FogMaterial" id="FogMaterial_0es0p"]
 density = -8.0
@@ -18,8 +20,15 @@ axis_lock_angular_x = true
 axis_lock_angular_z = true
 script = ExtResource("1_msurp")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("Target")]
 transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 0, 30, 0)
+top_level = true
+script = ExtResource("2_88b4b")
+Target = NodePath("..")
+MaxSpeed = 2.0
+Mass = 2.0
+Stiffness = 1.0
+Damping = 5.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -29,18 +38,35 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_du62s")
+shape = SubResource("BoxShape3D_43w2d")
 
 [node name="HookShot" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("2_mvtlb")]
 Player = NodePath("..")
 FiringSpeed = 100.0
 Length = 50.0
+trigger = "First"
+HookLabel = "Q"
 
 [node name="HookShot2" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("2_mvtlb")]
 Player = NodePath("..")
 FiringSpeed = 100.0
 Length = 50.0
-trigger = "right_click"
+trigger = "Second"
+HookLabel = "W"
+
+[node name="HookShot3" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("2_mvtlb")]
+Player = NodePath("..")
+FiringSpeed = 100.0
+Length = 50.0
+trigger = "Third"
+HookLabel = "E"
+
+[node name="HookShot4" parent="." node_paths=PackedStringArray("Player") instance=ExtResource("2_mvtlb")]
+Player = NodePath("..")
+FiringSpeed = 100.0
+Length = 50.0
+trigger = "Fourth"
+HookLabel = "R"
 
 [node name="FogVolume" type="FogVolume" parent="."]
 transform = Transform3D(6.12323e-17, 0, -1, 0, 1, 0, 1, 0, 6.12323e-17, 0, 30, 0)
