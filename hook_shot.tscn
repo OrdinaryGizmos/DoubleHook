@@ -44,3 +44,11 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -0.592)
 shape = SubResource("SphereShape3D_wvsyd")
 disabled = true
+
+[node name="HookLabel" type="Label3D" parent="Hook"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+pixel_size = 0.08
+offset = Vector2(0, 10)
+billboard = 1
+no_depth_test = true
+text = "Q"

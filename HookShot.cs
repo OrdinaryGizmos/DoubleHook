@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using OG;
 
 public partial class HookShot : Node3D
 {
@@ -16,6 +17,9 @@ public partial class HookShot : Node3D
     [Export]
     public String trigger = "left_click";
 
+    [Export]
+    public String HookLabel = "M1";
+
     public bool Firing;
     public bool Retracting;
     public bool Connected;
@@ -25,43 +29,105 @@ public partial class HookShot : Node3D
     public RigidBody3D Hook;
     public List<Node3D> Collisions = new List<Node3D>();
     public OG.Spring Force;
+    public PidController HookSpring;
+    private double _gain, _integral, _derivative, _maxSpeed;
+    [Export(PropertyHint.Range, "0.0, 250")]
+    public double MaxSpeed{
+        get { return _maxSpeed; }
+        set{
+            _maxSpeed = value;
+            HookSpring = new PidController(_gain, _integral, _derivative, _maxSpeed, -_maxSpeed);
+        }
+    }
+    [Export(PropertyHint.Range, "0.0, 150")]
+    public double Gain{
+        get { return _gain; }
+        set{
+            _gain = value;
+            HookSpring = new PidController(_gain, _integral, _derivative, _maxSpeed, -_maxSpeed);
+        }
+    }
+    [Export(PropertyHint.Range, "0.0, 25")]
+    public double Integral{
+        get { return _integral; }
+        set{
+            _integral = value;
+            HookSpring = new PidController(_gain, _integral, _derivative, _maxSpeed, -_maxSpeed);
+        }
+    }
+    [Export(PropertyHint.Range, "0.0, 25")]
+    public double Derivative{
+        get { return _derivative; }
+        set{
+            _derivative = value;
+            HookSpring = new PidController(_gain, _integral, _derivative, _maxSpeed, -_maxSpeed);
+        }
+    }
 
     public ShaderMaterial Mat;
+    public Label3D Label;
 
     public override void _Ready()
     {
         Hook = GetNode<RigidBody3D>("Hook");
         Mat = Hook.GetNode<MeshInstance3D>("HookMesh").GetActiveMaterial(0) as ShaderMaterial;
+        Label = Hook.GetNode<Label3D>("HookLabel");
+        Label.Text = HookLabel;
+        Label.Hide();
+        HookSpring = new PidController(_gain, _integral, _derivative, _maxSpeed, -_maxSpeed);
+    }
+
+    private void Detach()
+    {
+        Connected = false;
+        Released = true;
+        Firing = false;
+        Retracting = true;
+        foreach(var col in Collisions){
+            Player.Collisions.Remove(col);
+        }
+        Collisions.Clear();
+    }
+
+    private void Fire()
+    {
+        var MousePos = GetViewport().GetMousePosition();
+        var PlayerScreenPos = GetViewport()
+            .GetCamera3D()
+            .UnprojectPosition(Player.GlobalPosition);
+        var Direction = (MousePos - PlayerScreenPos).Normalized();
+        var YRotate = Vector2.Down.AngleTo(Direction);
+        var CurrentRotation = Rotation;
+        CurrentRotation.Y = -YRotate;
+        Rotation = CurrentRotation;
+        GetNode<CollisionShape3D>("Hook/HookshotCollider").Disabled = false;
+        GetNode<RigidBody3D>("Hook").Position = Vector3.Zero;
+        Firing = true;
+        Label.Show();
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionJustReleased(trigger))
+
+        if (Input.IsActionJustPressed(trigger) && !Firing)
         {
-            Connected = false;
-            Released = true;
-            Firing = false;
-            Retracting = true;
-            foreach(var col in Collisions){
-                Player.Collisions.Remove(col);
-            }
-            Collisions.Clear();
+            if (Connected) { Detach(); }
+            else Fire();
+
         }
 
-        if (Input.IsActionJustPressed(trigger) && !Firing && !Connected && !Retracting)
-        {
-            var MousePos = GetViewport().GetMousePosition();
-            var PlayerScreenPos = GetViewport()
+        if(Connected){
+            var HookScreenPos = GetViewport()
                 .GetCamera3D()
-                .UnprojectPosition(Player.GlobalPosition);
-            var Direction = (MousePos - PlayerScreenPos).Normalized();
+                .UnprojectPosition(GlobalPosition);
+            var ContactScreenPos = GetViewport()
+                .GetCamera3D()
+                .UnprojectPosition(ContactPoint);
+            var Direction = (ContactScreenPos - HookScreenPos).Normalized();
             var YRotate = Vector2.Down.AngleTo(Direction);
             var CurrentRotation = Rotation;
             CurrentRotation.Y = -YRotate;
             Rotation = CurrentRotation;
-            GetNode<CollisionShape3D>("Hook/HookshotCollider").Disabled = false;
-            GetNode<RigidBody3D>("Hook").Position = Vector3.Zero;
-            Firing = true;
         }
 
         GlobalPosition = Player.GlobalPosition;
@@ -69,6 +135,7 @@ public partial class HookShot : Node3D
         {
             if (!Connected)
             {
+                Label.Hide();
                 Hook.Position -= Hook.Transform.Basis.Z * FiringSpeed * delta / 4;
             } else{
                 if ((Hook.GlobalPosition - Player.GlobalPosition).Length() < 3)
